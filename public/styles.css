@@ -1,0 +1,108 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  background-color: #f5f5f5;
+  line-height: 1.6;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.gallery-display {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  padding: 20px;
+}
+
+.gallery-display .art-piece {
+  background-color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.gallery-display .art-piece img {
+  border-radius: 5px 5px 0 0;
+  width:100%;
+}
+
+.art-piece h3 {
+  margin-top: 10px;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.mint-form {
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mint-form label {
+  display: block;
+  margin-bottom: 5px;
+  color: #666;
+}
+
+.mint-form input,
+.mint-form textarea,
+.mint-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.mint-form button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.mint-form button:hover {
+  background-color: #0056b3;
+}
+
+.transaction-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.transaction-status.success {
+  color: #28a745;
+}
+
+.transaction-status.error {
+  color: #dc3545;
+}
+
+@media screen and (max-width: 768px) {
+  .gallery-display {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .mint-form {
+    padding: 15px;
+  }
+}
