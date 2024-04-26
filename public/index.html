@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Decentralized Art Gallery</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="gallery-header">
+    <h1>Decentralized Art Gallery</h1>
+</header>
+<section class="art-gallery">
+    <h2>Explore Artworks</h2>
+    <div class="gallery-grid">
+        <div class="artwork-item">
+            <img src="artwork1.jpg" alt="Artwork 1">
+            <h3>Artwork Title</h3>
+            <button class="btn-buy">Buy</button>
+        </div>
+    </div>
+</section>
+<section class="mint-art">
+    <h2>Mint Your Artwork</h2>
+    <form id="mint-art-form">
+        <label for="artist-name">Artist Name:</label>
+        <input type="text" id="artist-name" name="artist-name" required>
+        <label for="art-title">Artwork Title:</label>
+        <input type="text" id="art-title" name="art-title" required>
+        <label for="art-description">Artwork Description:</label>
+        <textarea id="art-description" name="art-description" required></textarea>
+        <label for="art-image">Upload Image:</label>
+        <input type="file" id="art-image" name="art-image" accept="image/*" required>
+        <button type="submit" class="btn-mint">Mint Artwork</button>
+    </form>
+</section>
+<script src="./web3.min.js"></script>
+<script>
+    document.getElementById('mint-art-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        console.log('Minting Art...');
+    });
+    Array.from(document.getElementsByClassName('btn-buy')).forEach(function(button) {
+        button.addEventListener('click', function() {
+            console.log('Buying Art...');
+        });
+    });
+</script>
+</body>
+</html>
