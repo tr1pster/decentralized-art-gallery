@@ -1,53 +1,26 @@
-require("@nomiclabs/hardhat-waffle");
-require("@nomiclabs/hardhat-ethers");
-require('dotenv').config();
+const { ethers } = require('ethers');
+const { Multicall } = require('ethereum-multicall');
 
-const MAINNET_RPC_URL = process.env.MAINNET_RPC_URL || "";
-const ROPSTEN_RPC_URL = process.env.ROPSTEN_RPC_URL || "";
-const KOVAN_RPC_URL = process.env.KOVAN_RPC_URL || "";
-const RINKEBY_RPC_URL = process.env.RINKEBY_RPC_URL || "";
-const GOERLI_RPC_URL = process.env.GOERLI_RPC_URL || "";
-const PRIVATE_KEY = process.env.PRIVATE_KEY || "YOUR_PRIVATE_KEY";
+const provider = ethers.getDefaultProvider('mainnet');
 
-module.exports = {
-  solidity: {
-    version: "0.8.4",
-    settings: {
-      optimizer: {
-        enabled: true,
-        runs: 200
-      },
+const multicall = new Multicall({ ethersProvider: provider });
+
+const contractCallContext = [
+    {
+        reference: 'contractCall1',
+        contractAddress: 'YourContractAddressHere', 
+        abi: YourContractABI,
+        calls: [{methodName: 'methodName1', params: ['param1']}, {methodName: 'methodName2', params: ['param1', 'param2']}],
     },
-  },
-  networks: {
-    hardhat: {
-      chainId: 1337
-    },
-    mainnet: {
-      url: MAINNET_RPC_URL,
-      accounts: [`0x${PRIVATE_KEY}`]
-    },
-    ropsten: {
-      url: ROPSTEN_RPC_URL,
-      accounts: [`0x${PRIVATE_KEY}`]
-    },
-    kovan: {
-      url: KOVAN_RPC_URL,
-      accounts: [`0x${PRIVATE_KEY}`]
-    },
-    rinkeby: {
-      url: RINKEBY_RPC_URL,
-      accounts: [`0x${PRIVATE_KEY}`]
-    },
-    goerli: {
-      url: GOERLI_RPC_URL,
-      accounts: [`0x${PRIVATE_KEY}`]
+];
+
+async function executeMulticall() {
+    try {
+        const { results } = await multicall.call(contractCallContext);
+        console.log(results);
+    } catch (error) {
+        console.error(`Multicall error: ${error}`);
     }
-  },
-  paths: {
-    sources: "./contracts",
-    tests: "./test",
-    cache: "./cache",
-    artifacts: "./artifacts"
-  }
-};
+}
+
+executeMulticall();
