@@ -8,18 +8,25 @@ const multicall = new Multicall({ ethersProvider: provider });
 const contractCallContext = [
     {
         reference: 'contractCall1',
-        contractAddress: 'YourContractAddressHere', 
+        contractAddress: 'YourContractAddressHere',
         abi: YourContractABI,
-        calls: [{methodName: 'methodName1', params: ['param1']}, {methodName: 'methodName2', params: ['param1', 'param2']}],
+        calls: [
+            { methodName: 'methodName1', params: ['param1'] }, 
+            { methodName: 'methodName2', params: ['param1', 'param2'] }
+        ],
     },
 ];
+
+function logOutput(message, data) {
+    console.log(`${message}: ${JSON.stringify(data, null, 2)}`);
+}
 
 async function executeMulticall() {
     try {
         const { results } = await multicall.call(contractCallContext);
-        console.log(results);
+        logOutput("Multicall Results", results);
     } catch (error) {
-        console.error(`Multicall error: ${error}`);
+        logOutput("Multicall error", error);
     }
 }
 
