@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
@@ -5,38 +7,38 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Royalty.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract ArtNFT is ERC721URIStorage, ERC721Royalty, Ownable {
+contract DecentralizedArtGallery is ERC721URIStorage, ERC721Royalty, Ownable {
     using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
+    Counters.Counter private _artTokenIds;
 
-    event ArtCreated(uint256 indexed tokenId, address creator, string tokenURI, uint256 royalty);
+    event ArtworkMinted(uint256 indexed tokenId, address creator, string metadataURI, uint256 royaltyPercentage);
 
-    constructor() ERC721("DigitalArtNFT", "DANFT") {}
+    constructor() ERC721("DecentralizedArtNFT", "DANFT") {}
 
-    function mintArt(string memory tokenURI, uint256 royaltyPercentage) external {
-        _tokenIds.increment();
-        uint256 newItemId = _tokenIds.current();
+    function mintArtwork(string memory metadataURI, uint256 royaltyFeeInBasisPoints) external {
+        _artTokenIds.increment();
+        uint256 newArtTokenId = _artTokenIds.current();
         
-        _mint(msg.sender, newItemId);
-        _setTokenURI(newItemId, tokenURI);
+        _mint(msg.sender, newArtTokenId);
+        _setTokenURI(newArtTokenId, metadataURI);
 
-        _setTokenRoyalty(newItemId, msg.sender, royaltyPercentage);
+        _setTokenRoyalty(newArtTokenId, msg.sender, royaltyFeeInBasisPoints);
 
-        emit ArtCreated(newItemId, msg.sender, tokenURI, royaltyPercentage);
+        emit ArtworkMinted(newArtTokenId, msg.sender, metadataURI, royaltyFeeInBasisPoints);
     }
 
-    function transferArt(address from, address to, uint256 tokenId) public {
+    function transferArtwork(address from, address to, uint256 tokenId) public {
         safeTransferFrom(from, to, tokenId);
     }
 
-    function setRoyaltyInfo(uint256 tokenId, address recipient, uint256 percentage) external {
-        require(ownerOf(tokenId) == msg.sender, "ArtNFT: Only the owner can set royalty info.");
-        _setTokenRoyalty(tokenId, recipient, percentage);
+    function updateRoyaltyInformation(uint256 tokenId, address royaltyRecipient, uint256 royaltyFeeInBasisPoints) external {
+        require(ownerOf(tokenId) == msg.sender, "DecentralizedArtGallery: Only the artwork owner can update royalty information.");
+        _setTokenRoyalty(tokenId, royaltyRecipient, royaltyFeeInBasisPoints);
     }
 
-    function getCreator(uint256 tokenId) external view returns (address) {
+    function fetchArtworkCreator(uint256 tokenId) external view returns (address) {
         address creator = royaltyInfo(tokenId, 0).receiver;
-        require(creator != address(0), "ArtNFT: Invalid tokenId or creator does not exist.");
+        require(creator != address(0), "DecentralizedArtGallery: Invalid tokenId or creator does not exist.");
         return creator;
     }
 
