@@ -16,24 +16,25 @@ contract DecentralizedArtGallery is ERC721URIStorage, ERC721Royalty, Ownable {
     constructor() ERC721("DecentralizedArtNFT", "DANFT") {}
 
     function mintArtwork(string memory metadataURI, uint256 royaltyFeeInBasisPoints) external {
-        require(bytes(metadataURI).length > 0, "DecentralizedArtGallery: metadataURI can't be empty.");
-        require(royaltyFeeInBasisPoints <= 10000, "DecentralizedArtGallery: Royalty fee exceeds maximum.");
+        validateMintInputs(metadataURI, royaltyFeeInBasisPoints);
 
         _artTokenIds.increment();
         uint256 newArtTokenId = _artTokenIds.current();
         
-        _mint(msg.sender, newArtTokenId);
-        try this._setTokenURI(newArtTokenId, metadataURI) {
-        } catch {
-            revert("DecentralizedArtGallery: Unable to set token URI.");
-        }
+        _mintArtwork(newArtTokenId, metadataURI, royaltyFeeInBasisPoints);
+    }
 
-        try this._setTokenRoyalty(newArtTokenId, msg.sender, royaltyFeeInBasisPoints) {
-        } catch {
-            revert("DecentralizedArtGallery: Unable to set token royalty.");
-        }
+    function validateMintInputs(string memory metadataURI, uint256 royaltyFeeInBasisPoints) internal pure {
+        require(bytes(metadataURI).length > 0, "DecentralizedArtGallery: metadataURI can't be empty.");
+        require(royaltyFeeInBasisPoints <= 10000, "DecentralizedArtGallery: Royalty fee exceeds maximum.");
+    }
 
-        emit ArtworkMinted(newArtTokenId, msg.sender, metadataURI, royaltyFeeInBasisPoints);
+    function _mintArtwork(uint256 tokenId, string memory metadataURI, uint256 royaltyFeeInBasisPoints) internal {
+        _mint(msg.sender, tokenId);
+        _setTokenURI(tokenId, metadataURI);
+        _setTokenRoyalty(tokenId, msg.sender, royaltyFeeInBasisPoints);
+        
+        emit ArtworkMinted(tokenId, msg.sender, metadataURI, royaltyFeeInBasisPoints);
     }
 
     function transferArtwork(address from, address to, uint256 tokenId) public {
@@ -61,7 +62,7 @@ contract DecentralizedArtGallery is ERC721URIStorage, ERC721Royalty, Ownable {
         return creator;
     }
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721, ERC721Royalty) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721Royalty) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 }
