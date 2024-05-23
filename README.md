@@ -1,3 +1,42 @@
-Repository Description:
+# Decentralized Art Gallery
 
-This Solidity smart contract repository is designed for a decentralized platform that empowers artists to mint their digital artwork into non-fungible tokens (NFTs), leveraging the robust ERC-721 or ERC-1155 token standards. It features essential functionalities including NFT minting, ownership transfer, and creator tracking, ensuring that artists retain recognition for their work. Central to the contract is the security measure that allows only the original artists to mint their creations, alongside an innovative royalty mechanism that provides artists with earnings from future sales. Each function within the contract is meticulously documented to elucidate its purpose and interactions, making the codebase accessible for future development and audits. The repository strictly adheres to a specified licensing notice and outlines the Solidity compiler versions compatible for a seamless deployment experience, aiming to foster a secure and artist-centric digital art marketplace.
+## Overview
+
+This repository contains Solidity smart contracts for a decentralized platform that allows artists to mint their digital artwork as NFTs using ERC-721 and ERC-1155 standards. Key features include minting, ownership transfer, creator tracking, and a royalty mechanism.
+
+## Features
+
+- **NFT Minting**: Artists can create NFTs for their artwork.
+- **Ownership Transfer**: Securely transfer NFTs.
+- **Creator Tracking**: Ensure artist recognition.
+- **Royalties**: Artists earn from future sales.
+
+## Getting Started
+
+### Prerequisites
+
+- Solidity Compiler
+- Node.js
+- Truffle or Hardhat
+
+### Installation
+
+1. Clone the repository:
+
+   ```sh
+   git clone https://github.com/tr1pster/decentralized-art-gallery.git
+   cd decentralized-art-gallery
+   ```
+
+2. Install dependencies:
+
+   ```sh
+   npm install
+   ```
+
+3. Compile and deploy:
+
+   ```sh
+   npx truffle compile
+   npx truffle migrate
+   ```
